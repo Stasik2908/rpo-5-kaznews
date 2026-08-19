@@ -1,0 +1,42 @@
+{% extends 'base.html' %}
+
+{% block title %}{{ post.title }}{% endblock %}
+
+{% block content %}
+<section class="news-block">
+    <div class="container-fluid">
+        <div class="news-block-content">
+            <h3>{{ post.title }}</h3>
+            <p class="mb-15">{{ post.created_at|date:"d.m.Y"}}</p>
+            <img src="{{ post.image_url }}" alt="" class="rounded-img">
+            <p class="mb-15">{{ post.content }}</p>
+            <a href="{% url 'news_by_category' pk=post.category.pk %}">#{{ post.category.name }}</a>
+            
+            <!-- Новый блок с похожими постами -->
+            {% if related_posts %}
+            <div class="related-posts" style="margin-top: 40px;">
+                <h4>Читайте также:</h4>
+                <div style="display: grid; grid-template-columns: repeat(2, 1fr); gap: 20px; margin-top: 20px;">
+                    {% for related in related_posts %}
+                    <div style="background: var(--secondary); border-radius: 15px; padding: 15px;">
+                        <img src="{{ related.image_url }}" alt="" 
+                             style="width: 100%; height: 150px; object-fit: cover; border-radius: 10px; margin-bottom: 10px;">
+                        <h5 style="margin-bottom: 5px;">{{ related.title|truncatewords:5 }}</h5>
+                        <a href="{% url 'read_news_page' pk=related.pk %}" style="color: var(--primary);">Читать →</a>
+                    </div>
+                    {% endfor %}
+                </div>
+            </div>
+            {% endif %}
+        </div>
+        <div class="adv-block-content">
+            <h3>Advertising</h3>
+            <div class="adv-block__info">
+                {% for adv in advs %}
+                <img src="{{ adv.image_url }}" alt="{{ adv.name }}">
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+</section>
+{% endblock %}

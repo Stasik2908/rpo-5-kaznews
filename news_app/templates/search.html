@@ -1,0 +1,26 @@
+{% extends 'base.html' %}
+
+{% block title %}Search{% endblock %}
+
+{% block content %}
+<section class="news-block">
+    <div class="container-fluid">
+        <div class="news-block-content">
+            <h3>Search</h3>
+            <form action="{% url 'search_results' %}" method="get">
+                <label for="text">Enter news title or description</label>
+                <input id="text" name="q" type="text" placeholder="Title or Description" required>
+                <button>Search</button>
+            </form>
+        </div>
+        <div class="adv-block-content">
+            <h3>Advertising</h3>
+            <div class="adv-block__info">
+                {% for adv in advs %}
+                <img src="{{ adv.image_url }}" alt="{{ adv.name }}">
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+</section>
+{% endblock %}

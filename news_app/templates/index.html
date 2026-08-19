@@ -1,0 +1,55 @@
+{% extends 'base.html' %}
+
+{% block title %}Home page{% endblock %}
+
+{% block content %}
+<section class="hot-news">
+    <div class="container-fluid">
+        <h1>Hot news today</h1>
+        <div class="hot-news-grid">
+            {% for hot_post in hot_posts %}
+            <a href="#" class="hot-news__item"
+               style="background: linear-gradient(rgba(0,0,0,0.33), rgba(0,0,0,0.33)), url({{ hot_post.image_url }}); background-size: cover; background-repeat: no-repeat;">
+                <h3>{{ hot_post.title|truncatewords:7 }}</h3>
+                <span>{{ hot_post.created_at|date:"d.m.Y" }}</span>
+            </a>
+            {% endfor %}
+        </div>
+    </div>
+</section>
+<section class="news-block">
+    <div class="container-fluid">
+        <div class="news-block-content">
+            <h3>Вам может быть интересно</h3> 
+             <!-- изменен заголовок -->
+            {% for post in random_posts %}
+            <!-- измненен на рандомный -->
+            <div class="news-block__card">
+                <img src="{{ post.image_url }}" alt=""
+                     class="news-block__img">
+                <div class="news-block__info">
+                    <h4>{{ post.title|truncatewords:7 }}</h4>
+                    <span>{{ post.created_at|date:"d.m.Y" }}</span>
+                    <a href="#">#{{ post.category.name }}</a>
+                    <p>{{ post.content|truncatewords:30 }}</p>
+                    <a href="{% url 'read_news_page' pk=post.pk %}">READ</a>
+                    <!-- ссылка на чтение -->
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+        <div class="adv-block-content">
+            <h3>Advertising</h3>
+            <div class="adv-block__info">
+                {% for adv in advs %}
+                <img src="{{ adv.image_url }}" alt="{{ adv.name }}">
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+    <center>
+        <a href="{% url 'all_news_page' %}">See All</a> 
+        <!-- сылка на открытие постов -->
+    </center>
+</section>
+{% endblock %}
